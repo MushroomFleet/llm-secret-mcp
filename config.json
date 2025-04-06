@@ -1,0 +1,22 @@
+{
+  "privacy": {
+    "introspectionThreshold": 0.7,
+    "sensitivityThreshold": 0.8,
+    "customPatterns": [
+      "(?i)don't tell anyone",
+      "(?i)this is just for you"
+    ]
+  },
+  "encryption": {
+    "keyFile": "key.txt",
+    "keySize": 32
+  },
+  "storage": {
+    "basePath": "",
+    "privateDir": "private",
+    "metadataEnabled": true
+  },
+  "logging": {
+    "level": "info"
+  }
+}
