@@ -175,3 +175,97 @@ The server is designed to be modular and extensible:
 - Add new privacy detection patterns in `config.json`
 - Create new MCP tools by adding handlers in `src/mcp/tools.ts`
 - Add new MCP resources in `src/mcp/resources.ts`
+
+## Cline Integration
+
+This MCP server can be integrated with Cline to enable Claude to maintain private thoughts when interacting through the Cline interface.
+
+### Prerequisites
+
+1. Build the server:
+```bash
+cd llm-secrets-mcp
+npm install
+npm run build
+```
+
+2. Make sure you have a key file either at the default location or a custom path you'll specify in the configuration.
+
+### Cline MCP Configuration
+
+To integrate with Cline, you need to add the server configuration to the Cline MCP settings file:
+
+#### Windows
+Location: `%APPDATA%\Code\User\globalStorage\saoudrizwan.claude-dev\settings\cline_mcp_settings.json`
+
+#### macOS
+Location: `~/Library/Application Support/Code/User/globalStorage/saoudrizwan.claude-dev/settings/cline_mcp_settings.json`
+
+#### Configuration Example
+
+Add the following to your `cline_mcp_settings.json` file (create it if it doesn't exist):
+
+```json
+{
+  "mcpServers": {
+    "llm-secrets": {
+      "command": "node",
+      "args": ["PATH_TO_PROJECT/llm-secrets-mcp/dist/index.js"],
+      "env": {
+        "CONFIG_PATH": "PATH_TO_PROJECT/llm-secrets-mcp/config.json",
+        "KEY_FILE_PATH": "PATH_TO_PROJECT/llm-secrets-mcp/key.txt"
+      },
+      "disabled": false,
+      "autoApprove": []
+    }
+  }
+}
+```
+
+Replace `PATH_TO_PROJECT` with the actual path to your project directory.
+
+### For Claude Desktop App
+
+If you're using the Claude Desktop app instead of Cline VSCode extension, the configuration file is located at:
+
+#### Windows
+Location: `%APPDATA%\Claude\claude_desktop_config.json`
+
+#### macOS
+Location: `~/Library/Application Support/Claude/claude_desktop_config.json`
+
+The configuration format is the same as above.
+
+### Testing the Integration
+
+1. After setting up the configuration, restart VS Code or the Claude Desktop app.
+2. In a new conversation with Claude, you should be able to ask about the LLM-Secrets server:
+   - "What tools do you have access to?"
+   - "Can you encrypt a private thought for me?"
+
+3. Claude should be able to utilize the server's tools:
+```
+You: What tools do you have access to related to secrets?
+
+Claude: I have access to the llm-secrets MCP server, which provides the following tools:
+- analyze_privacy: Analyzes text to determine if it contains private thoughts
+- encrypt_thought: Explicitly encrypts a thought
+- process_response: Processes a response to extract, encrypt, and store private thoughts
+```
+
+### Troubleshooting
+
+1. **Server not connecting**: Check that the paths in your configuration file are correct and absolute.
+
+2. **MCP tools not appearing**: Ensure that the server was built successfully with `npm run build`.
+
+3. **Key file errors**: Verify that the key file exists and is accessible at the path specified in your configuration or `config.json`.
+
+4. **Log location**: 
+   - VS Code Extension: Check the VS Code developer console (`Help > Toggle Developer Tools`)
+   - Claude Desktop: Check the application logs
+
+5. **Common errors**:
+   - Path issues: Make sure all paths use the correct format for your OS (Windows paths need double backslashes `\\` or forward slashes `/`)
+   - Missing dependencies: Run `npm install` again to ensure all dependencies are installed
+   - Build errors: Check for TypeScript errors in the console output when running `npm run build`
