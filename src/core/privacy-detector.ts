@@ -45,7 +45,10 @@ export class PrivacyDetector {
     if (this.config.customPatterns && this.config.customPatterns.length > 0) {
       for (const pattern of this.config.customPatterns) {
         try {
-          this.privacyPatterns.push(new RegExp(pattern, 'i'));
+          // Escape special regex characters to treat the pattern as literal text
+          const escapedPattern = pattern.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+          this.privacyPatterns.push(new RegExp(escapedPattern, 'i'));
+          console.log(`Added privacy pattern: ${escapedPattern}`);
         } catch (error) {
           console.warn(`Invalid regex pattern: ${pattern}. Error: ${(error as Error).message}`);
         }

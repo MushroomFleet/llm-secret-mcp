@@ -45,11 +45,15 @@ export class EncryptionManager {
    */
   private async loadOrCreateKey(): Promise<Buffer> {
     try {
+      // Use KEY_FILE_PATH environment variable if available, otherwise use config path
+      const keyFilePath = process.env.KEY_FILE_PATH || this.config.keyFile;
+      console.log(`Loading encryption key from: ${keyFilePath}`);
+      
       // Check if key file exists
-      await fsPromises.access(this.config.keyFile, fs.constants.R_OK);
+      await fsPromises.access(keyFilePath, fs.constants.R_OK);
       
       // Load existing key
-      const keyBase64 = await fsPromises.readFile(this.config.keyFile, 'utf-8');
+      const keyBase64 = await fsPromises.readFile(keyFilePath, 'utf-8');
       const key = Buffer.from(keyBase64.trim(), 'base64');
       
       // Validate key size
@@ -70,8 +74,11 @@ export class EncryptionManager {
       // Generate new key if file doesn't exist or key size is invalid
       const key = crypto.randomBytes(this.config.keySize);
       
+      // Use KEY_FILE_PATH environment variable if available, otherwise use config path
+      const keyFilePath = process.env.KEY_FILE_PATH || this.config.keyFile;
+      
       // Save key in base64 format for readability
-      await fsPromises.writeFile(this.config.keyFile, key.toString('base64'));
+      await fsPromises.writeFile(keyFilePath, key.toString('base64'));
       
       return key;
     }

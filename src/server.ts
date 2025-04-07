@@ -6,40 +6,8 @@ import { loadConfig, ServerConfig } from './config.js';
 import { createCoreComponents, CoreComponents } from './core/index.js';
 import { registerToolHandlers } from './mcp/tools.js';
 import { registerResourceHandlers } from './mcp/resources.js';
-
-// Mocking the MCP SDK types for now
-class Server {
-  private config: any;
-  private handlers: Map<string, Function> = new Map();
-  
-  constructor(serverInfo: any, config: any) {
-    this.config = config;
-    console.log(`Initializing server: ${serverInfo.name} v${serverInfo.version}`);
-  }
-  
-  setRequestHandler(schema: string, handler: Function): void {
-    this.handlers.set(schema, handler);
-    console.log(`Registered handler for: ${schema}`);
-  }
-  
-  async connect(transport: any): Promise<void> {
-    console.log('Server connected to transport');
-  }
-  
-  async close(): Promise<void> {
-    console.log('Server closed');
-  }
-  
-  set onerror(handler: (error: Error) => void) {
-    console.log('Error handler registered');
-  }
-}
-
-class StdioServerTransport {
-  constructor() {
-    console.log('Stdio transport initialized');
-  }
-}
+import { Server } from '@modelcontextprotocol/sdk/server/index.js';
+import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js';
 
 /**
  * Create and initialize the MCP server

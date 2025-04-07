@@ -88,9 +88,13 @@ export const DEFAULT_CONFIG: ServerConfig = {
 /**
  * Load configuration from a JSON file, with defaults for missing values
  */
-export async function loadConfig(configPath = 'config.json'): Promise<ServerConfig> {
+export async function loadConfig(configPath?: string): Promise<ServerConfig> {
   try {
-    const data = await fsPromises.readFile(configPath, 'utf-8');
+    // Use CONFIG_PATH environment variable or default to 'config.json'
+    const configFilePath = configPath || process.env.CONFIG_PATH || 'config.json';
+    console.log(`Loading configuration from: ${configFilePath}`);
+    
+    const data = await fsPromises.readFile(configFilePath, 'utf-8');
     const userConfig = JSON.parse(data);
     
     // Deep merge with default config

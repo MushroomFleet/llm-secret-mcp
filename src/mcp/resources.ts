@@ -3,16 +3,13 @@
  */
 
 import { CoreComponents } from '../core/index.js';
-import { ErrorCode, McpError } from '../utils/errors.js';
-
-// Mocking the MCP SDK types for now
-interface Server {
-  setRequestHandler: (schema: any, handler: Function) => void;
-}
-
-// These would be imported from '@modelcontextprotocol/sdk/types.js'
-const ListResourcesRequestSchema = 'ListResourcesRequest';
-const ReadResourceRequestSchema = 'ReadResourceRequest';
+import { 
+  ErrorCode, 
+  McpError, 
+  ListResourcesRequestSchema, 
+  ReadResourceRequestSchema 
+} from '@modelcontextprotocol/sdk/types.js';
+import { Server } from '@modelcontextprotocol/sdk/server/index.js';
 
 /**
  * Register resource handlers with the MCP server

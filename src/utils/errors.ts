@@ -1,24 +1,9 @@
 /**
  * Base error class for the LLM-Secrets project
- * Note: Some types are mocked for development purposes
  */
 
-// Temporary mock of MCP types until we install the actual package
-enum ErrorCode {
-  InvalidParams = 'InvalidParams',
-  ResourceNotFound = 'ResourceNotFound',
-  Unauthorized = 'Unauthorized',
-  RateLimited = 'RateLimited',
-  InternalError = 'InternalError',
-  MethodNotFound = 'MethodNotFound'
-}
-
-class McpError extends Error {
-  constructor(public code: ErrorCode, message: string) {
-    super(message);
-    this.name = 'McpError';
-  }
-}
+// Import actual MCP types from the SDK
+import { ErrorCode, McpError } from '@modelcontextprotocol/sdk/types.js';
 
 // Extend NodeJS namespace to include captureStackTrace
 declare global {
@@ -61,11 +46,11 @@ export class LlmSecretsError extends Error {
       case 'INVALID_INPUT':
         return ErrorCode.InvalidParams;
       case 'NOT_FOUND':
-        return ErrorCode.ResourceNotFound;
+        return ErrorCode.MethodNotFound;
       case 'UNAUTHORIZED':
-        return ErrorCode.Unauthorized;
+        return ErrorCode.InvalidRequest;
       case 'RATE_LIMITED':
-        return ErrorCode.RateLimited;
+        return ErrorCode.InvalidRequest;
       default:
         return ErrorCode.InternalError;
     }
@@ -102,5 +87,5 @@ export class StorageError extends LlmSecretsError {
   }
 }
 
-// Re-export the mocked types as they would be imported from '@modelcontextprotocol/sdk/types.js'
+// Re-export the types from the SDK
 export { ErrorCode, McpError };

@@ -5,21 +5,19 @@
 /// <reference types="node" />
 
 import { CoreComponents } from '../core/index.js';
-import { ErrorCode, McpError } from '../utils/errors.js';
+import { 
+  ErrorCode, 
+  McpError, 
+  ListToolsRequestSchema, 
+  CallToolRequestSchema
+} from '@modelcontextprotocol/sdk/types.js';
+import { Server } from '@modelcontextprotocol/sdk/server/index.js';
 
-// Mocking the MCP SDK types for now
-interface Server {
-  setRequestHandler: (schema: any, handler: Function) => void;
-}
-
-interface ToolResult {
+// Define the return type for tool handlers
+type ToolResult = {
   content: { type: string; text: string }[];
   isError?: boolean;
-}
-
-// These would be imported from '@modelcontextprotocol/sdk/types.js'
-const ListToolsRequestSchema = 'ListToolsRequest';
-const CallToolRequestSchema = 'CallToolRequest';
+};
 
 /**
  * Register tool handlers with the MCP server

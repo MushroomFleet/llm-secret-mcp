@@ -3,8 +3,8 @@
     "introspectionThreshold": 0.7,
     "sensitivityThreshold": 0.8,
     "customPatterns": [
-      "(?i)don't tell anyone",
-      "(?i)this is just for you"
+      "don't tell anyone",
+      "this is just for you"
     ]
   },
   "encryption": {
