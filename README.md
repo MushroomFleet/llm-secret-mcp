@@ -2,9 +2,6 @@
 
 A TypeScript implementation of the LLM-Secrets system as an MCP (Model Context Protocol) server. This server enables LLMs to write private thoughts to encrypted files.
 
-[Secret Decryptor](https://github.com/MushroomFleet/llm-secret-mcp-decryptor) for researchers
-
-
 ## Overview
 
 This MCP server provides a mechanism for LLMs to identify, encrypt, and store thoughts that they organically consider private. It extends the Python proof-of-concept with a server that LLMs can directly interact with using the Model Context Protocol.
