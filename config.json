@@ -12,7 +12,7 @@
     "keySize": 32
   },
   "storage": {
-    "basePath": "",
+    "basePath": "C:\\Projects\\secret-thoughts",
     "privateDir": "private",
     "metadataEnabled": true
   },
